@@ -11,4 +11,4 @@ export * from "./src/structure/ResponseHeaders.ts";
 export * from "./src/util/Middleware.ts";
 export * from "./src/util/runMiddleware.ts";
 export * from "./src/util/utils.ts";
-export * from "./src/util/Router.ts";
+export * from "./src/middleware/Router.ts";
