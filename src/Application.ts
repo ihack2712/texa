@@ -54,6 +54,14 @@ export class Application extends EventEmitter<{
 		readonly port: number
 	};
 	
+	public get origin (): string
+	{
+		return "http"
+			+ (this.secure ? "s" : "") + "://"
+			+ this.addr.hostname
+			+ ":" + this.addr.port;
+	}
+	
 	/**
 	 * Initiate a new server.
 	 * @param options The server options.
