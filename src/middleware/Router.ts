@@ -1,7 +1,7 @@
 // Imports
 import type { Addon, MiddlewareFn } from "../types.ts";
-import { Middleware } from "./Middleware.ts";
-import { runMiddleware } from "./runMiddleware.ts";
+import { Middleware } from "../util/Middleware.ts";
+import { runMiddleware } from "../util/runMiddleware.ts";
 import { match } from "../deps.ts";
 
 export const isProtocolMiddleware: (method: string) => MiddlewareFn = (method: string) => async (req, res, next) => await next(req.method.toLowerCase().trim() === method.toLowerCase().trim());
