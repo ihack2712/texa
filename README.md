@@ -188,5 +188,5 @@ const httpsApp = new Application("0.0.0.0:443", {
 
 // Start listening for requests on both servers.
 httpApp.start().catch(console.error);
-httpApp.start().catch(console.error);
+httpApps.start().catch(console.error);
 ```
