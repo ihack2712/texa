@@ -18,6 +18,9 @@ export class Request
 	/** A URL object. */
 	public readonly url: URL;
 	
+	/** Added an original URL property. */
+	public readonly originalUrl: URL;
+	
 	/** The request method. */
 	public readonly method: string;
 	
@@ -42,6 +45,7 @@ export class Request
 		const { port, hostname } = pair.app.addr;
 		const secure = pair.app.secure;
 		this.url = new URL(`${pair._request.headers.has("sec-websocket-version") ? "ws" : "http"}${secure ? "s" : ""}://${hostname}:${port}${pair._request.url}`);
+		this.originalUrl = new URL(`${pair._request.headers.has("sec-websocket-version") ? "ws" : "http"}${secure ? "s" : ""}://${hostname}:${port}${pair._request.url}`);
 		this.method = pair._request.method;
 	}
 	
