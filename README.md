@@ -51,7 +51,7 @@ app.on("connection", async socket => {
 	socket.on("pong", async data => {
 		// pong event
 	});
-	socket.on("close", async (closer, reason, message) => {
+	socket.on("close", async (closer, code, reason) => {
 		// Close event
 	});
 });
