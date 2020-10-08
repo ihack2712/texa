@@ -1,6 +1,6 @@
 # Texa
 
-A web-framework inspired by [Oak](https://deno.land/x/oak) and [Express](https://npmjs.com/package/express), with built-in support for WebSocket connections.
+A Deno web-framework inspired by [Oak](https://deno.land/x/oak) and [Express](https://npmjs.com/package/express), with built-in support for WebSockets, middleware and routing.
 
 ## Features
 - TLS
