@@ -4,7 +4,7 @@ export { serve, serveTLS, Status } from "https://deno.land/std@0.74.0/http/mod.t
 export type { WebSocket as DenoWebSocket } from "https://deno.land/std@0.74.0/ws/mod.ts";
 export { acceptWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent, isWebSocketPongEvent } from "https://deno.land/std@0.74.0/ws/mod.ts";
 export { extname, resolve, join } from "https://deno.land/std@0.74.0/path/mod.ts";
-export { exists } from "https://deno.land/std@0.74.0/fs/mod.ts";
+export { exists } from "https://deno.land/std@0.74.0/fs/exists.ts";
 
 // Exports - External Library
 export { EventEmitter } from "https://deno.land/x/eventemitter@1.2.1/mod.ts";
