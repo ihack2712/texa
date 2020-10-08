@@ -29,3 +29,14 @@ export function parseAddrFromStr(addr: string, defaultHost: string, defaultPort:
 		port: url.port === "" ? defaultPort! : Number(url.port)!,
 	};
 }
+
+/**
+ * Check whether or not Deno has access to read a
+ * certain file/directory.
+ * @param path The path to the file or directory.
+ */
+export async function denoCanRead (path: string): Promise<boolean>
+{
+	const q = await Deno.permissions.query({ name: "read", path });
+	return q.state === "granted";
+}
