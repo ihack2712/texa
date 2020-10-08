@@ -7,19 +7,18 @@ const zero = 0n;
 const max = 2n**11n-1n;
 let count: bigint = 0n as bigint;
 const base: string = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" as string;
-const len = BigInt(base.length);
 
 /**
  * Encode a big integer to Base62.
  * @param n The big integer.
  */
-function encodeId (n: bigint): string
+function encodeId (n: number): string
 {
 	let str = "";
-	while (n > zero)
+	while (Math.floor(n) > zero)
 	{
-		str = base.charAt(Number(n % len)) + str;
-		n = n / len;
+		str = base.charAt(Math.floor(n) % base.length) + str;
+		n = Math.floor(Math.floor(n) / base.length);
 	}
 	return str;
 }
@@ -89,8 +88,9 @@ export class WebSocket extends EventEmitter<{
 	{
 		super();
 		
-		this.id = encodeId(BigInt(Date.now() << 11) | (count = (count + 1n) % max));
-		const id = this.id;
+		const id = encodeId(Number(BigInt(Date.now() << 11) | (count = (count + 1n) % max)));
+		this.id = id;
+		
 		(async () => {
 			try
 			{
