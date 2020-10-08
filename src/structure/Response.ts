@@ -1,6 +1,6 @@
 // Imports
 import { Pair } from "./Pair.ts";
-import { Status } from "../deps.ts";
+import { Status, contentType, extname } from "../deps.ts";
 import { ResponseHeaders } from "./ResponseHeaders.ts";
 
 /**
@@ -11,6 +11,7 @@ export class Response
 	
 	public get WRITABLE (): boolean { return this.pair.WRITABLE; }
 	
+	#filePath?: string;
 	#content: string = "" as string;
 	#statusCode: Status = Status.OK;
 	
@@ -72,6 +73,17 @@ export class Response
 	}
 	
 	/**
+	 * Send file contents in response. File contents are loaded in
+	 * .end().
+	 * @param path The file path to read.
+	 */
+	public file (path: string): this
+	{
+		this.#filePath = path;
+		return this;
+	}
+	
+	/**
 	 * Send and end the response.
 	 * @param body A final piece of chunk to add in the response body.
 	 */
@@ -80,6 +92,12 @@ export class Response
 		if (!this.pair.WRITABLE)
 			throw new Error(Pair.NOT_WRITABLE);
 		if (body) this.content += body;
+		if (this.#filePath)
+		{
+			this.#content = await Deno.readTextFile(this.#filePath);
+			this.headers.set("Content-Type", contentType(extname(this.#filePath)) || "text/plain; charset=utf-8");
+			this.headers.set("Content-Length", this.#content.length);
+		}
 		this.pair.ENDING = true;
 		let err: Error | null = null;
 		try
