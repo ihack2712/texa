@@ -2,7 +2,7 @@
 import type { Addon, MiddlewareFn } from "../types.ts";
 import { SubMiddleware } from "../util/SubMiddleware.ts";
 
-export const isProtocolMiddleware: (method: string) => MiddlewareFn = (method: string) => async (req, res, next) => await next(req.method.toLowerCase().trim() === method.toLowerCase().trim());
+export const isMethodMiddleware: (method: string) => MiddlewareFn = (method: string) => async (req, res, next) => await next(req.method.toLowerCase().trim() === method.toLowerCase().trim());
 
 /**
  * A router object to route different requests.
@@ -28,7 +28,7 @@ export class Router extends SubMiddleware
 	 */
 	public get (path: string, ...middleware: Addon[]): this
 	{
-		return this.all(path, isProtocolMiddleware("get"), ...middleware);
+		return this.all(path, isMethodMiddleware("get"), ...middleware);
 	}
 	
 	/**
@@ -38,7 +38,7 @@ export class Router extends SubMiddleware
 	 */
 	public post (path: string, ...middleware: Addon[]): this
 	{
-		return this.all(path, isProtocolMiddleware("post"), ...middleware);
+		return this.all(path, isMethodMiddleware("post"), ...middleware);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ export class Router extends SubMiddleware
 	 */
 	public put (path: string, ...middleware: Addon[]): this
 	{
-		return this.all(path, isProtocolMiddleware("put"), ...middleware);
+		return this.all(path, isMethodMiddleware("put"), ...middleware);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ export class Router extends SubMiddleware
 	 */
 	public patch (path: string, ...middleware: Addon[]): this
 	{
-		return this.all(path, isProtocolMiddleware("patch"), ...middleware);
+		return this.all(path, isMethodMiddleware("patch"), ...middleware);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ export class Router extends SubMiddleware
 	 */
 	public delete (path: string, ...middleware: Addon[]): this
 	{
-		return this.all(path, isProtocolMiddleware("delete"), ...middleware);
+		return this.all(path, isMethodMiddleware("delete"), ...middleware);
 	}
 	
 }
