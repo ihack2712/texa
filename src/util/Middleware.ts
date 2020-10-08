@@ -1,16 +1,12 @@
 // Imports
 import type { Request } from "../structure/Request.ts";
 import type { Response } from "../structure/Response.ts";
-
-interface IMiddleware
-{
-	run (req: Request, res: Response, next: (callNext?: boolean) => Promise<void>): Promise<unknown> | unknown;
-}
+import type { NextFn } from "../types.ts";
 
 /**
  * A middleware object.
  */
-export class Middleware implements IMiddleware
+export class Middleware
 {
 	
 	/**
@@ -19,7 +15,7 @@ export class Middleware implements IMiddleware
 	 * @param res The server response.
 	 * @param next The next function.
 	 */
-	public run: IMiddleware["run"] = async (req, res, next): Promise<void> =>
+	public async run (req: Request, res: Response, next: NextFn)
 	{
 		await next();
 	}
