@@ -33,23 +33,22 @@ export class Router extends Middleware
 			const set = new Set<Addon>();
 			middleware.forEach(_ => set.add(_));
 			this.use(async (req, res, next) => {
-				req.meta.__texa_left_overs__ = typeof req.meta.__texa_left_overs__ !== "string" ? req.url.pathname : req.meta.__texa_left_overs__;
 				// deno-lint-ignore no-explicit-any
-				const result = matcher(req.meta.__texa_left_overs__) as false | any;
+				const result = matcher(req.url.pathname) as false | any;
 				if (!result)
 				{
 					await next();
 					return;
 				}
-				const pre = req.meta.__texa_left_overs__.substring(0, result.path.length);
-				req.meta.__texa_left_overs__ = req.meta.__texa_left_overs__.substring(result.path.length, req.meta.__texa_left_overs__.length);
+				const pre = req.url.pathname.substring(0, result.path.length);
+				req.url.pathname = req.url.pathname.substring(result.path.length, req.url.pathname.length);
 				for (let key in result.params)
 				{
 					const value = result.params[key];
 					req.params[key] = value;
 				}
 				const d = await runMiddleware(set, req, res);
-				if (d.continue) req.meta.__texa_left_overs__ = pre + req.meta.__texa_left_overs__;
+				if (d.continue) req.url.pathname = pre + req.url.pathname;
 				console.log(d.continue)
 				await next(d.continue);
 			});
