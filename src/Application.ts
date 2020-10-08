@@ -58,15 +58,17 @@ export class Application extends EventEmitter<{
 	 * Initiate a new server.
 	 * @param options The server options.
 	 */
-	public constructor (addr: string, {
-		certFile, keyFile,
-		allowWebSocket
-	}: {
+	public constructor (addr: string, options?: {
 		certFile?: string,
 		keyFile?: string,
 		allowWebSocket?: boolean
 	}) {
 		super();
+		
+		const {
+			certFile, keyFile,
+			allowWebSocket
+		} = options || { };
 		
 		this.#allowSockets = allowWebSocket !== false;
 		
