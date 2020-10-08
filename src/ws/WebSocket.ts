@@ -19,7 +19,7 @@ function encodeId (n: bigint): string
 	while (n > zero)
 	{
 		str = base.charAt(Number(n % len)) + str;
-		n /= len;
+		n = n / len;
 	}
 	return str;
 }
@@ -73,7 +73,7 @@ export class WebSocket extends EventEmitter<{
 	error (error: Error): unknown | Promise<unknown>
 }> {
 	
-	public readonly id: string = encodeId(BigInt(Date.now() << 11) | (count = (count + 1n) % max));
+	public readonly id: string;
 	
 	public get isClosed (): boolean
 	{
@@ -89,6 +89,8 @@ export class WebSocket extends EventEmitter<{
 	{
 		super();
 		
+		this.id = encodeId(BigInt(Date.now() << 11) | (count = (count + 1n) % max));
+		const id = this.id;
 		(async () => {
 			try
 			{
@@ -96,7 +98,7 @@ export class WebSocket extends EventEmitter<{
 				{
 					if (isWebSocketCloseEvent(event))
 					{
-						sockets.delete(this.id);
+						sockets.delete(id);
 						this.emitSync("close", "client", event.code, event.reason);
 					}
 					if (isWebSocketPingEvent(event))
@@ -110,7 +112,7 @@ export class WebSocket extends EventEmitter<{
 				}
 			} catch (error)
 			{
-				sockets.delete(this.id);
+				sockets.delete(id);
 				if (!this.isClosed)
 				{
 					await this.close(1000, "Failed to receive frame.").catch(error => this.emitSync("error", error));
