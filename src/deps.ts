@@ -3,7 +3,7 @@ export type { ServerRequest, Server } from "https://deno.land/std@0.73.0/http/mo
 export { serve, serveTLS, Status } from "https://deno.land/std@0.73.0/http/mod.ts";
 export type { WebSocket as DenoWebSocket } from "https://deno.land/std@0.73.0/ws/mod.ts";
 export { acceptWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent, isWebSocketPongEvent } from "https://deno.land/std@0.73.0/ws/mod.ts";
-export { extname } from "https://deno.land/std@0.73.0/path/mod.ts";
+export { extname, resolve, join } from "https://deno.land/std@0.73.0/path/mod.ts";
 
 // Exports - External Library
 export { EventEmitter } from "https://deno.land/x/eventemitter@1.2.1/mod.ts";
