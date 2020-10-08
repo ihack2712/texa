@@ -32,7 +32,7 @@ export async function runMiddleware (middleware: Set<Addon>, request: Pair["requ
 			_.called = true;
 			try
 			{
-				if (callNext)
+				if (callNext && !_.called)
 				{
 					const nextFn = createNextFunction() as NextFn & { called: boolean };
 					let callFn: MiddlewareFn;
