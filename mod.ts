@@ -1,5 +1,5 @@
 // Exports
-export const TEXA_VERSION: string = "0.1.0" as string;
+export const TEXA_VERSION: string = "0.1.7" as string;
 export * from "./src/Application.ts";
 export * from "./src/types.ts";
 export * from "./src/structure/Cookies.ts";
