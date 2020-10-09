@@ -84,6 +84,18 @@ export class Response
 	}
 	
 	/**
+	 * Send a json response and end the response.
+	 * @param data The data to send.
+	 */
+	public async json (data: any): Promise<this>
+	{
+		if (!this.pair.WRITABLE)
+			throw new Error(Pair.NOT_WRITABLE);
+		this.headers.set("Content-Type", "application/json; charset=utf-8")
+		return await this.end(JSON.stringify(data));
+	}
+	
+	/**
 	 * Send and end the response.
 	 * @param body A final piece of chunk to add in the response body.
 	 */
@@ -91,17 +103,19 @@ export class Response
 	{
 		if (!this.pair.WRITABLE)
 			throw new Error(Pair.NOT_WRITABLE);
+		this.pair.ENDING = true;
 		if (body) this.content += body;
 		if (this.#filePath)
 		{
 			this.#content = await Deno.readTextFile(this.#filePath);
 			this.headers.set("Content-Type", contentType(extname(this.#filePath)) || "text/plain; charset=utf-8");
-			this.headers.set("Content-Length", this.#content.length);
 		}
-		this.pair.ENDING = true;
 		let err: Error | null = null;
 		try
 		{
+			this.headers
+				.set("Content-Length", this.#content.length)
+				.set("X-Powered-By", "Texa");
 			await this.pair._request.respond({
 				body: this.#content,
 				headers: this.headers.toHeadersObject(),
