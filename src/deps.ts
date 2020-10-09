@@ -1,6 +1,6 @@
 // Exports - Standard Library
 export type { ServerRequest, Server } from "https://deno.land/std@0.74.0/http/mod.ts";
-export { serve, serveTLS, Status } from "https://deno.land/std@0.74.0/http/mod.ts";
+export { serve, serveTLS, Status, STATUS_TEXT } from "https://deno.land/std@0.74.0/http/mod.ts";
 export type { WebSocket as DenoWebSocket } from "https://deno.land/std@0.74.0/ws/mod.ts";
 export { acceptWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent, isWebSocketPongEvent } from "https://deno.land/std@0.74.0/ws/mod.ts";
 export { extname, resolve, join } from "https://deno.land/std@0.74.0/path/mod.ts";
