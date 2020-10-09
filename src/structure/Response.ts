@@ -1,6 +1,6 @@
 // Imports
 import { Pair } from "./Pair.ts";
-import { Status, contentType, extname } from "../deps.ts";
+import { Status, contentType, extname, STATUS_TEXT } from "../deps.ts";
 import { ResponseHeaders } from "./ResponseHeaders.ts";
 
 /**
@@ -116,6 +116,8 @@ export class Response
 			this.headers
 				.set("Content-Length", this.#content.length)
 				.set("X-Powered-By", "Texa");
+			if (!this.content && this.statusCode >= 400)
+				this.#content = STATUS_TEXT.has(this.statusCode) ? `${this.statusCode} - ${STATUS_TEXT.get(this.statusCode)}` : "";
 			await this.pair._request.respond({
 				body: this.#content,
 				headers: this.headers.toHeadersObject(),
