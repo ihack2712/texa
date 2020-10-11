@@ -87,11 +87,12 @@ export class Response
 	 * Send a json response and end the response.
 	 * @param data The data to send.
 	 */
+	// deno-lint-ignore no-explicit-any
 	public async json (data: any): Promise<this>
 	{
 		if (!this.pair.WRITABLE)
 			throw new Error(Pair.NOT_WRITABLE);
-		this.headers.set("Content-Type", "application/json; charset=utf-8")
+		this.headers.set("Content-Type", "application/json; charset=utf-8");
 		return await this.end(JSON.stringify(data));
 	}
 	
