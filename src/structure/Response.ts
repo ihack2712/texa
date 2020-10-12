@@ -1,6 +1,7 @@
 // Imports
-import { Pair } from "./Pair.ts";
+import type { HeaderValue } from "../types.ts";
 import { Status, contentType, extname, STATUS_TEXT } from "../deps.ts";
+import { Pair } from "./Pair.ts";
 import { ResponseHeaders } from "./ResponseHeaders.ts";
 
 /**
@@ -131,6 +132,42 @@ export class Response
 		this.pair.ENDED = true;
 		this.pair.ENDING = false;
 		if (err) throw err;
+		return this;
+	}
+	
+	/**
+	 * **Alias**: <Response>.headers.get(key: string)
+	 */
+	public get (key: string): HeaderValue | void
+	{
+		return this.headers.get(key);
+	}
+	
+	/**
+	 * **Alias**: <Response>.headers.set(key: string, value: HeaderValue)
+	 * @returns Response object.
+	 */
+	public set (key: string, value: HeaderValue): this
+	{
+		this.headers.set(key, value);
+		return this;
+	}
+	
+	/**
+	 * **Alias**: <Response>.headers.has(key: string)
+	 */
+	public has (key: string): boolean
+	{
+		return this.headers.has(key);
+	}
+	
+	/**
+	 * **Alias**: <Response>.headers.delete(key: string)
+	 * @returns Response object.
+	 */
+	public delete (key: string): this
+	{
+		this.headers.delete(key);
 		return this;
 	}
 	
