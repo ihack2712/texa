@@ -49,7 +49,6 @@ export class SubMiddleware extends Middleware
 				}
 				const d = await runMiddleware(set, req, res);
 				if (d.continue) req.url.pathname = pre + req.url.pathname;
-				console.log(d.continue)
 				await next(d.continue);
 			});
 		} else

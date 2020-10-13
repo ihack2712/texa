@@ -29,11 +29,11 @@ export async function runMiddleware (middleware: Set<Addon>, request: Pair["requ
 			return meFn;
 		}
 		let _: NextFn & { called: boolean } = (async (callNext: boolean = true) => {
-			_.called = true;
 			try
 			{
 				if (callNext && !_.called)
 				{
+					_.called = true;
 					const nextFn = createNextFunction() as NextFn & { called: boolean };
 					let callFn: MiddlewareFn;
 					const addon = addons[nextPos];
@@ -43,8 +43,8 @@ export async function runMiddleware (middleware: Set<Addon>, request: Pair["requ
 					else
 						callFn = addon;
 					await callFn(request, response, nextFn as NextFn);
-					if (!nextFn.called) await nextFn(false);
 					diagnostics.ran++;
+					if (!nextFn.called) await nextFn(false);
 				} else diagnostics.continue = false;
 			} catch (error)
 			{
