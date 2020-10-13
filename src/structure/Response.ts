@@ -106,23 +106,23 @@ export class Response
 		if (!this.pair.WRITABLE)
 			throw new Error(Pair.NOT_WRITABLE);
 		this.pair.ENDING = true;
-		if (body) this.content += body;
+		if (body) this.#content += body;
+		const headers = this.headers.toHeadersObject();
 		if (this.#filePath)
 		{
 			this.#content = await Deno.readTextFile(this.#filePath);
-			this.headers.set("Content-Type", contentType(extname(this.#filePath)) || "text/plain; charset=utf-8");
+			headers.set("Content-Type", contentType(extname(this.#filePath)) || "text/plain; charset=utf-8");
 		}
 		let err: Error | null = null;
 		try
 		{
-			this.headers
-				.set("Content-Length", this.#content.length)
-				.set("X-Powered-By", "Texa");
+			headers.set("Content-Length", this.#content.length.toString());
+			headers.set("X-Powered-By", "Texa");
 			if (!this.content && this.statusCode >= 400)
 				this.#content = STATUS_TEXT.has(this.statusCode) ? `${this.statusCode} - ${STATUS_TEXT.get(this.statusCode)}` : "";
 			await this.pair._request.respond({
 				body: this.#content,
-				headers: this.headers.toHeadersObject(),
+				headers: headers,
 				status: this.#statusCode
 			});
 		} catch (error)
