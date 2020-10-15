@@ -12,3 +12,4 @@ export * from "./src/util/Middleware.ts";
 export * from "./src/util/runMiddleware.ts";
 export * from "./src/util/utils.ts";
 export * from "./src/middleware/Router.ts";
+export * from "./src/middleware/static.ts";
