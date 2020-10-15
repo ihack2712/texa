@@ -98,6 +98,16 @@ export class Response
 	}
 	
 	/**
+	 * Set the Content-Type response header.
+	 * @param type The MIME type.
+	 */
+	public type (type: string): this
+	{
+		this.headers.set("Content-Type", type);
+		return this;
+	}
+	
+	/**
 	 * Send and end the response.
 	 * @param body A final piece of chunk to add in the response body.
 	 */
