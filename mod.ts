@@ -17,12 +17,12 @@ export * from "./src/util/utils.ts";
 export * from "./src/middleware/Router.ts";
 export * from "./src/middleware/static.ts";
 
-export function filename (meta: ImportMeta): string
+export function __filename (meta: ImportMeta): string
 {
 	return meta.url.substring(6, meta.url.length);
 }
 
-export function dirname (meta: ImportMeta): string
+export function __dirname (meta: ImportMeta): string
 {
-	return _dirname(filename(meta));
+	return _dirname(__filename(meta));
 }
