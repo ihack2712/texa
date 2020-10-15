@@ -190,3 +190,53 @@ const httpsApp = new Application("0.0.0.0:443", {
 httpApp.start().catch(console.error);
 httpApps.start().catch(console.error);
 ```
+
+## Static files.
+
+```ts
+// Imports
+import { Static } from "https://deno.land/x/texa/mod.ts";
+
+// Use the static middleware.
+app.use(
+	// Arg 1. The directory to serve from, relative from <CWD>.
+	new Static("www")
+);
+```
+
+### Custom extension handlers.
+
+```ts
+app.use(
+	new Static("www", {
+		handlers: {
+			ejs: async (pathname, req, res) => {
+				// Compute compiledEJS somehow..
+				return [ compiledEJS, "text/html" ];
+			}
+		}
+	})
+);
+```
+
+### Index files.
+
+```ts
+app.use(
+	new Static("www", {
+		indexes: [ "index.html" ]
+	})
+);
+```
+
+### Vanity URLs
+
+You can add extensions to look for just like adding index files.
+
+```ts
+app.use(
+	new Static("www", {
+		vanityExtensions: [ "html" ]
+	})
+);
+```
