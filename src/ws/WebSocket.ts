@@ -74,7 +74,7 @@ export class WebSocket extends EventEmitter<{
 	error (error: Error): unknown | Promise<unknown>
 }> {
 	
-	#id: string = "" as string;
+	#id: string;
 	public get id (): string { return this.#id; }
 	
 	public get isClosed (): boolean
@@ -90,7 +90,8 @@ export class WebSocket extends EventEmitter<{
 	public constructor (private readonly sockets: Map<string, WebSocket>, private readonly ws: DenoWebSocket, public readonly req: Request, public readonly res: Response)
 	{
 		super();
-		
+		const id = encodeId(Number(BigInt(Date.now() << 11) | (count = (count + 1n) % max)));
+		this.#id = id;
 		(async () => {
 			try
 			{
@@ -98,7 +99,7 @@ export class WebSocket extends EventEmitter<{
 				{
 					if (isWebSocketCloseEvent(event))
 					{
-						sockets.delete(this.#id);
+						sockets.delete(id);
 						this.emitSync("close", "client", event.code, event.reason);
 					}
 					if (isWebSocketPingEvent(event))
@@ -112,7 +113,7 @@ export class WebSocket extends EventEmitter<{
 				}
 			} catch (error)
 			{
-				sockets.delete(this.#id);
+				sockets.delete(id);
 				if (!this.isClosed)
 				{
 					await this.close(1000, "Failed to receive frame.").catch(error => this.emitSync("error", error));
