@@ -90,7 +90,7 @@ export class WebSocket extends EventEmitter<{
 	public constructor (private readonly sockets: Map<string, WebSocket>, private readonly ws: DenoWebSocket, public readonly req: Request, public readonly res: Response)
 	{
 		super();
-		const id = encodeId(Number(BigInt(Date.now() << 11) | (count = (count + 1n) % max)));
+		const id = encodeId(Number((BigInt(Date.now()) << 11n) | (count = (count + 1n) % max)));
 		this.#id = id;
 		(async () => {
 			try
@@ -125,8 +125,6 @@ export class WebSocket extends EventEmitter<{
 	
 	public __init ()
 	{
-		const id = encodeId(Number(BigInt(Date.now() << 11) | (count = (count + 1n) % max)));
-		this.#id = id;
 	}
 	
 	/**
