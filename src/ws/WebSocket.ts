@@ -1,5 +1,7 @@
 // Imports
 import type { Application } from "../Application.ts";
+import type { Request } from "../structure/Request.ts";
+import type { Response } from "../structure/Response.ts";
 import type { DenoWebSocket } from "../deps.ts";
 import { isWebSocketCloseEvent, isWebSocketPingEvent, isWebSocketPongEvent, EventEmitter } from "../deps.ts";
 
@@ -85,7 +87,7 @@ export class WebSocket extends EventEmitter<{
 	 * @param sockets The websocket map.
 	 * @param ws The WebSocket remote.
 	 */
-	public constructor (private readonly sockets: Map<string, WebSocket>, private readonly ws: DenoWebSocket)
+	public constructor (private readonly sockets: Map<string, WebSocket>, private readonly ws: DenoWebSocket, public readonly req: Request, public readonly res: Response)
 	{
 		super();
 		

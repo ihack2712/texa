@@ -126,7 +126,7 @@ export class Application extends EventEmitter<{
 					bufWriter,
 					headers,
 				}).then(async ws => {
-					const sock = new WebSocket(this.#sockets, ws);
+					const sock = new WebSocket(this.#sockets, ws, pair.request, pair.response);
 					sock.__init();
 					this.#sockets.set(sock.id, sock);
 					if (!this.#allowSockets)
