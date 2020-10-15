@@ -19,7 +19,7 @@ export * from "./src/middleware/static.ts";
 
 export function __filename (meta: ImportMeta): string
 {
-	return meta.url.substring(6, meta.url.length);
+	return meta.url.substring(7, meta.url.length);
 }
 
 export function __dirname (meta: ImportMeta): string
