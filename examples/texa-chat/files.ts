@@ -280,7 +280,7 @@ export const html = `<!DOCTYPE html5>
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title>Texa IRC</title>
+		<title>Texa Chat</title>
 		<link rel="stylesheet" href="index.css" />
 	</head>
 	<body>
