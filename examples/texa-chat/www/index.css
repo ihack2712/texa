@@ -1,0 +1,107 @@
+html, body
+{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #191919;
+	color: white;
+}
+
+.chat
+{
+	display: block;
+	float: left;
+	width: calc(100% - 300px);
+	height: calc(100% - 50px);
+	border: 0px;
+	border-bottom: 1px solid #646464;
+	overflow-y: scroll;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.members
+{
+	display: block;
+	float: left;
+	width: 300px;
+	height: calc(100% - 50px);
+	border-bottom: 1px solid #646464;
+	border-left: 1px solid #646464;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+#message
+{
+	width: calc(100% - 150px);
+	height: 50px;
+	border: 0;
+	outline: 0;
+	background-color: #191919;
+	color: white;
+	padding: 10px;
+	font-size: 16px;
+	font-family: monospace;
+	float: left;
+}
+
+button
+{
+	float: left;
+	width: 150px;
+	height: 50px;
+	border: 0;
+	outline: 0;
+	background-color: #3399CC;
+	padding: 0;
+	color: white;
+}
+
+button:hover
+{
+	background-color: #44AADD;
+}
+
+button:active
+{
+	background-color: #55BBEE;
+}
+
+.chat > div
+{
+	display: inline-block;
+	width: 100%;
+	float: left;
+	font-family: monospace;
+	margin-bottom: 10px;
+	line-height: 1.5;
+}
+
+.chat > div > span
+{
+	display: inline-block;
+	float: left;
+	margin-right: 10px;
+}
+
+.chat > div > span:nth-last-child(1)
+{
+	margin-right: 0;
+}
+
+.chat > div > span:nth-child(1)
+{
+	color: gray;
+}
+
+.chat > div > span:nth-child(2)
+{
+	color: lime;
+}
+
+.chat > div > span.system
+{
+	color: yellow !important;
+}
