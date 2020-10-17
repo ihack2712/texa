@@ -4,6 +4,7 @@ import type { Request } from "../structure/Request.ts";
 import type { Response } from "../structure/Response.ts";
 import { resolve, join, contentType, extname } from "../deps.ts";
 import { Middleware } from "../util/Middleware.ts";
+import { Status } from "https://deno.land/std@0.74.0/http/http_status.ts";
 
 export type DirectoryListingFn = (entries: ({ size?: number, name: string })[]) => [ string, string ] | Promise<[ string, string ]>;
 export type Handler = (pathname: string, req: Request, res: Response) => [ string, string ] | Promise<[ string, string ] | undefined> | undefined;
@@ -147,7 +148,7 @@ export class Static extends Middleware
 				const [ content, type ] = await this.directoryListing(entries);
 				if (content)
 				{
-					await res.status(200).set("content-type", type || "text/plain").end(content);
+					await res.status(Status.OK).set("content-type", type || "text/plain").end(content);
 				}
 			} else if (file)
 			{
@@ -157,12 +158,12 @@ export class Static extends Middleware
 				if (this.handlers.has(extension)) handler = this.handlers.get(extension)!;
 				const [ content, type ] = (await handler(file, req, res)) || [];
 				if (res.WRITABLE && content)
-					await res.status(200).set("content-type", type || "text/plain").end(content);
+					await res.status(Status.OK).set("content-type", type || "text/plain").end(content);
 			}
 		} catch (error)
 		{
 			if (error instanceof Deno.errors.PermissionDenied)
-				await res.status(403).end();
+				await res.status(Status.Forbidden).end();
 			else if (error instanceof Deno.errors.NotFound) {}
 			else throw error;
 		}
