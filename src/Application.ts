@@ -117,6 +117,7 @@ export class Application extends EventEmitter<{
 		for await (let _request of this._server)
 		{
 			const pair = new Pair(this, _request);
+			await pair.init();
 			if (pair.request.url.protocol === "wss:" || pair.request.url.protocol === "ws:")
 			{
 				const { conn, r: bufReader, w: bufWriter, headers } = _request;

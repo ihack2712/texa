@@ -43,4 +43,9 @@ export class Pair
 		this.response = new Response(this);
 	}
 	
+	public async init (): Promise<void>
+	{
+		await this.request._init();
+	}
+	
 }

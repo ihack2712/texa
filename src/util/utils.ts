@@ -29,3 +29,12 @@ export function parseAddrFromStr(addr: string, defaultHost: string, defaultPort:
 		port: url.port === "" ? defaultPort! : Number(url.port)!,
 	};
 }
+
+/**
+ * Extract the media type of a content-type or accepts header.
+ * @param t The media type.
+ */
+export function extractType (t: string): string
+{
+	return t.replace(/(\;.*)/,"");
+}
