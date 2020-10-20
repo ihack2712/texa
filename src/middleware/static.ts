@@ -2,9 +2,8 @@
 import type { NextFn } from "../types.ts";
 import type { Request } from "../structure/Request.ts";
 import type { Response } from "../structure/Response.ts";
-import { resolve, join, contentType, extname } from "../deps.ts";
+import { resolve, join, contentType, extname, Status } from "../deps.ts";
 import { Middleware } from "../util/Middleware.ts";
-import { Status } from "https://deno.land/std@0.74.0/http/http_status.ts";
 
 export type DirectoryListingFn = (entries: ({ size?: number, name: string })[]) => [ string, string ] | Promise<[ string, string ]>;
 export type Handler = (pathname: string, req: Request, res: Response) => [ string, string ] | Promise<[ string, string ] | undefined> | undefined;
