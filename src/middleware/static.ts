@@ -6,7 +6,7 @@ import { resolve, join, contentType, extname, Status } from "../deps.ts";
 import { Middleware } from "../util/Middleware.ts";
 
 export type DirectoryListingFn = (entries: ({ size?: number, name: string })[]) => [ string, string ] | Promise<[ string, string ]>;
-export type Handler = (pathname: string, req: Request, res: Response) => [ string, string ] | Promise<[ string, string ] | undefined> | undefined;
+export type Handler = (pathname: string, req: Request, res: Response, thisArg: Static) => [ string, string ] | Promise<[ string, string ] | undefined> | undefined;
 export type Handlers = { [key: string]: Handler };
 export type HandlersMap = Map<string, Handler>;
 
@@ -155,7 +155,7 @@ export class Static extends Middleware
 				extension = extension.substring(1, extension.length);
 				let handler = Static.fallback as Handler;
 				if (this.handlers.has(extension)) handler = this.handlers.get(extension)!;
-				const [ content, type ] = (await handler(file, req, res)) || [];
+				const [ content, type ] = (await handler(file, req, res, this)) || [];
 				if (res.WRITABLE && content)
 					await res.status(Status.OK).set("content-type", type || "text/plain").end(content);
 			}
