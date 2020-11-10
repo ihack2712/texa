@@ -7,12 +7,13 @@ A Deno web-framework inspired by [Oak](https://deno.land/x/oak) and [Express](ht
 - Middlewares
 - Router
 - WebSockets
-- Sleek request & response objects.
+- Sleek request & response objects
+- Static files middleware
+- Router middleware
 
 ## Todos
 
 - Cookies.
-- Serve static files middleware.
 
 ## Importing
 
