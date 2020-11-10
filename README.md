@@ -72,11 +72,11 @@ app.use(
 			await res.status(500).end("Internal server error, if you're a developer you can check the server logs.");
 		}
 		console.log(
-			"%s %dms %s%s",                       // The log template.
+			"%s %dms %s %s",                      // The log template.
 			req.method,                           // The request method.
 			Date.now() - req.at,                  // The amount of ms it took from start to finish.
 			res.statusCode,                       // The status code that was sent back.
-			req,url.pathname,                     // The requested resource.
+			req.url.pathname,                     // The requested resource.
 			err !== null ? ` - ${err.stack}` : "" // Include an error if an error occured.
 		);
 	}
