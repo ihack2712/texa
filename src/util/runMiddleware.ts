@@ -58,6 +58,6 @@ export async function runMiddleware (middleware: Set<Addon>, request: Pair["requ
 		return _;
 	};
 	const next = createNextFunction();
-	await next().catch(()=>{});
+	await next();
 	return diagnostics;
 }

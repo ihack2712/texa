@@ -125,7 +125,8 @@ export class Static extends Middleware
 					this.handlers.set(key, value);
 			if (options.vanityExtensions instanceof Set || Array.isArray(options.vanityExtensions))
 				for (let ext of options.vanityExtensions)
-					this.vanityExtensions.add((Static.startsWithDot.test(ext) ? "" : ".") + ext);
+					//this.vanityExtensions.add((Static.startsWithDot.test(ext) ? "" : ".") + ext);
+					this.vanityExtensions.add(ext);
 		}
 	}
 	
