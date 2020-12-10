@@ -42,7 +42,7 @@ class Proxy extends Middleware<MiddlewareFn> {
 	}
 }
 
-export const isMethodMiddleware: (method: string) => MiddlewareCallback<MiddlewareFn> = (method: string) => async (req, res, next) => await next(req.method.toLowerCase().trim() === method.toLowerCase().trim());
+export const isMethodMiddleware: (method: string) => MiddlewareCallback<MiddlewareFn> = (method: string) => async (req, res, next) => await next(req.method.toLowerCase().trim() !== method.toLowerCase().trim());
 
 export class RouteMiddleware extends Middleware<MiddlewareFn> {
 
