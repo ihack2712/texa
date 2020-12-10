@@ -14,11 +14,10 @@ const rooms: Rooms = new Map();
  * @param message The message to send.
  * @param except The socket to exclude.
  */
-async function broadcast (room: Room | string, message: string, except?: Client): Promise<void>
-{
+async function broadcast(room: Room | string, message: string, except?: Client): Promise<void> {
 	if (typeof room === "string" && rooms.has(room)) room = rooms.get(room)!;
 	else if (!room || (typeof room === "string" && !rooms.has(room))) return;
-	for (let [ , socket ] of room as Room)
+	for (let [, socket] of room as Room)
 		if (socket !== except)
 			await socket.send(message).catch(console.error);
 }
@@ -26,23 +25,23 @@ async function broadcast (room: Room | string, message: string, except?: Client)
 /**
  * The web socket events.
  */
-export default (app: Application) => app.on("connection", async (socket: Client) => {
-	
+export default (app: Application) => app.onconnection.subscribe(async _socket => {
+
+	const socket: Client = _socket as any;
+
 	const roomID = socket.req.originalUrl.pathname;
-	
-	socket.on("message", async data => {
+
+	socket.onmessage.subscribe(async data => {
 		let _: any;
-		try
-		{
+		try {
 			_ = JSON.parse(data);
-		} catch (error)
-		{
+		} catch (error) {
 			return await socket.close(1003, error.message);
 		}
-		
+
 		if (typeof _ !== "object" || _ === null)
 			return await socket.close(1002, "The message should a JSON object.");
-		
+
 		if (_.name && socket.name)
 			return await socket.close(1008, "Socket name is already set.");
 		else if (_.name && !socket.name)
@@ -52,14 +51,13 @@ export default (app: Application) => app.on("connection", async (socket: Client)
 				return await socket.close(4001, "The name is already in use.");
 			else if (!/^[a-z0-9_A-Z_]+$/gi.test(_.name) || _.name.length > 32 || _.name.length < 3)
 				return await socket.close(4002, "The name property must only contain characters A-Z a-z 0-9 and _, and must be between 3 and 32 characters.");
-			else
-			{
+			else {
 				if (!rooms.has(roomID)) rooms.set(roomID, new Map());
 				const room = rooms.get(roomID)!;
 				room.set(_.name, socket);
 				socket.name = _.name;
 				let names: string[] = [];
-				for (let [, s ] of room) names.push(s.name!);
+				for (let [, s] of room) names.push(s.name!);
 				await socket.send(JSON.stringify({ welcome: socket.name, connected: room.size, names }));
 				await broadcast(room, JSON.stringify({ type: "joined", name: socket.name, ts: Date.now() }), socket);
 			}
@@ -76,27 +74,23 @@ export default (app: Application) => app.on("connection", async (socket: Client)
 				return await broadcast(roomID, JSON.stringify({ type: "message", name: socket.name, ts: Date.now(), message: _.message }));
 		else return await socket.close(1002, "Not understood!");
 	});
-	
-	socket.on("close", async () => {
-		if (rooms.has(roomID) && socket.name)
-		{
+
+	socket.onclose.subscribe(async () => {
+		if (rooms.has(roomID) && socket.name) {
 			console.log("%s disconnected from %s", socket.name, roomID);
 			const room = rooms.get(roomID)!;
 			room.delete(socket.name);
-			if (room.size < 1)
-			{
+			if (room.size < 1) {
 				rooms.delete(roomID);
 				console.log("Deleting room %s", roomID);
 			}
-			else
-			{
+			else {
 				await broadcast(room, JSON.stringify({ type: "left", name: socket.name, ts: Date.now() }), socket);
 				console.log("Sending farewell message to the rest of the room.");
 			}
-		} else
-		{
+		} else {
 			console.log("Disconnected from no room.");
 		}
 	});
-	
+
 });
